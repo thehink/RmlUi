@@ -36,6 +36,8 @@ namespace Rml {
 
 class InlineBoxBase : public InlineLevelBox {
 public:
+	RMLUI_RTTI_DefineWithParent(InlineBoxBase, InlineLevelBox)
+
 	InlineLevelBox* AddChild(UniquePtr<InlineLevelBox> child);
 
 	String DebugDumpTree(int depth) const override;
@@ -63,6 +65,8 @@ private:
  */
 class InlineBox final : public InlineBoxBase {
 public:
+	RMLUI_RTTI_DefineWithParent(InlineBox, InlineBoxBase)
+
 	InlineBox(const InlineLevelBox* parent, Element* element, const Box& box);
 
 	FragmentConstructor CreateFragment(InlineLayoutMode mode, float available_width, float right_spacing_width, bool first_box,

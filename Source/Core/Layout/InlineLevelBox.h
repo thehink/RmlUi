@@ -45,6 +45,8 @@ struct FontMetrics;
  */
 class InlineLevelBox {
 public:
+	RMLUI_RTTI_Define(InlineLevelBox)
+
 	virtual ~InlineLevelBox();
 
 	// Create a fragment from this box, if it can fit within the available width.
