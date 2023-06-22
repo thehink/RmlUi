@@ -345,19 +345,19 @@ include(FileList)
 
 # FreeType
 if(NOT NO_FONT_INTERFACE_DEFAULT)
-	if(EMSCRIPTEN)
-		set(EMSCRIPTEN_FLAGS "${EMSCRIPTEN_FLAGS} -sUSE_FREETYPE=1")
-	else()
-		if(NOT FREETYPE_FOUND)
-			find_package(Freetype REQUIRED)
-		endif()
-		if(MSVC AND FREETYPE_VERSION_STRING STREQUAL "2.11.0")
-			message(WARNING "You are using FreeType version 2.11.0 which introduced an issue that causes a crash on startup on some of the samples. Please avoid this version specifically.")
-		endif()
-
-		list(APPEND CORE_LINK_LIBS ${FREETYPE_LIBRARIES})
-		list(APPEND CORE_INCLUDE_DIRS ${FREETYPE_INCLUDE_DIRS})
+	# if(EMSCRIPTEN)
+	# 	set(EMSCRIPTEN_FLAGS "${EMSCRIPTEN_FLAGS} -sUSE_FREETYPE=1")
+	# else()
+	if(NOT FREETYPE_FOUND)
+		find_package(Freetype REQUIRED)
 	endif()
+	if(MSVC AND FREETYPE_VERSION_STRING STREQUAL "2.11.0")
+		message(WARNING "You are using FreeType version 2.11.0 which introduced an issue that causes a crash on startup on some of the samples. Please avoid this version specifically.")
+	endif()
+
+	list(APPEND CORE_LINK_LIBS ${FREETYPE_LIBRARIES})
+	list(APPEND CORE_INCLUDE_DIRS ${FREETYPE_INCLUDE_DIRS})
+	# endif()
 endif()
 
 # Lua
@@ -907,7 +907,7 @@ source_group("Core\\FontEngineDefault" REGULAR_EXPRESSION "/Core/FontEngineDefau
 if(EMSCRIPTEN)
 	# Enables Asyncify which we only need since the backend doesn't control the main loop. This enables us to yield to the browser during the backend call to
 	# Backend::ProcessEvents(). Asyncify results in larger and slower code, users are instead encouraged to use 'emscripten_set_main_loop()' and family.
-	set(EMSCRIPTEN_EXE_FLAGS "${EMSCRIPTEN_EXE_FLAGS} -sASYNCIFY")
+	set(EMSCRIPTEN_EXE_FLAGS "${EMSCRIPTEN_EXE_FLAGS}")
 
 	message(STATUS "Compiling for Emscripten.\n\t- Flags:${EMSCRIPTEN_FLAGS}\n\t- ExeFlags:${EMSCRIPTEN_EXE_FLAGS}")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EMSCRIPTEN_FLAGS}")
